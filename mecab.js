@@ -1,3 +1,4 @@
+'use strict';
 var cp = require('child_process');
 var sq = require('shell-quote');
 
@@ -23,7 +24,31 @@ var parseFunctions = {
         result.push([elems[0]].concat(elems[1].split(',')[0]));
         return result;
     },
+    'orgform': function (result, elems) {
+      console.log(elems);
+      let word = elems[0];
+      let tag = elems[1].split(',')[0];
+      switch(tag.charAt(0)) {
+        case 'J': //조사
+        case 'E': //어미
+        case 'X': //접두사, 접미사
+        case 'S': //symbol
+          return result; //형식 형태소 무시
 
+        case 'V': //동사만 원형으로
+          if (tag[1] === 'X') { //보조용언(VX)도 무시.
+            return result;
+          }
+          let orgForm = elems[1].split(',')[7];
+          if (orgForm !== '*') {
+            word = orgForm.split(/\//)[0]; 
+          }
+          word += '다';
+          break;
+      }
+      result.push([word].concat(tag));
+      return result;
+    },
     'morphs': function (result, elems) {
         result.push(elems[0]);
         return result;
@@ -62,6 +87,10 @@ var pos = function (text, callback) {
     parse(text, 'pos', callback);
 };
 
+var orgform = function (text, callback) {
+    parse(text, 'orgform', callback);
+};
+
 var morphs = function (text, callback) {
     parse(text, 'morphs', callback);
 };
@@ -72,6 +101,7 @@ var nouns = function (text, callback) {
 
 module.exports = {
     pos: pos,
+    orgform: orgform,
     morphs: morphs,
     nouns: nouns
 };
