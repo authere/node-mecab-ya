@@ -25,7 +25,7 @@ var parseFunctions = {
         return result;
     },
     'orgform': function (result, elems) {
-      console.log(elems);
+      //console.log(elems);
       let word = elems[0];
       let tag = elems[1].split(',')[0];
       switch(tag.charAt(0)) {
@@ -34,7 +34,7 @@ var parseFunctions = {
         case 'X': //접두사, 접미사
         case 'S': //symbol
           if (tag === 'SL') { break; } // allow foreign lang
-          console.log('remove:', word, tag);
+          //console.log('remove:', word, tag);
           return result; //형식 형태소 무시
 
         case 'V': //동사만 원형으로
