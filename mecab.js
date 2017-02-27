@@ -33,7 +33,7 @@ var parseFunctions = {
         case 'E': //어미
         case 'X': //접두사, 접미사
         case 'S': //symbol
-          if (tag === 'SL') { break; } // allow foreign lang
+          if (tag === 'SL' || tag === 'SN' || tag === 'SH') { break; } // allow foreign lang and number
           //console.log('remove:', word, tag);
           return result; //형식 형태소 무시
 
